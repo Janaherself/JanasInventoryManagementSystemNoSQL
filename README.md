@@ -1,4 +1,4 @@
-# Welcome to The Most Facsinating Inventory Management System!!
+# Welcome to The Most Fascinating Inventory Management System!!
 
 ### This app is built using C# .NET 6 and it includes several methods such as:
 <ul>
