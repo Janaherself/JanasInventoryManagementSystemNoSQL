@@ -12,7 +12,19 @@ namespace JanasInventoryManagementSystem
 
         public void Add(Inventory inventory)
         {
+            Console.Write("Enter product name:");
+            string name = Console.ReadLine();
 
+            Console.Write("Enter product price:");
+            decimal price = Convert.ToDecimal(Console.ReadLine());
+
+            Console.Write("Enter product quantity:");
+            int quantity = Convert.ToInt32(Console.ReadLine());
+
+            Product product = new Product(name, price, quantity);
+            products.Add(product);
+
+            Console.WriteLine("Product Added Succefully!");
         }
 
         public void View(Inventory inventory) 
