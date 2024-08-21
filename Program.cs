@@ -18,7 +18,7 @@ namespace JanasInventoryManagementSystem
 
             while (exit) 
             {
-                Console.WriteLine("\nWelcome To Jana's Inventory Management system!\n" +
+                Console.WriteLine("Welcome To Jana's Inventory Management system!\n" +
                     "You can choose one of the options below by typing its corresponding number.\n" +
                     "1. Add a Product\n" +
                     "2. View a List of Products\n" +
@@ -32,17 +32,17 @@ namespace JanasInventoryManagementSystem
 
                 switch (option)
                 {
-                    case 1: inventory.Add(inventory); break;
-                    case 2: inventory.View(inventory); break;
-                    case 3: inventory.Edit(inventory); break;
-                    case 4: inventory.Delete(inventory); break;
-                    case 5: inventory.Search(inventory); break;
+                    case 1: inventory.Add(); break;
+                    case 2: inventory.View(); break;
+                    case 3: inventory.Edit(); break;
+                    case 4: inventory.Delete(); break;
+                    case 5: inventory.Search(); break;
                     case 6: 
                         exit = false; 
-                        Console.WriteLine("Exiting.."); 
+                        Console.WriteLine("Exiting..\n"); 
                         break;
                     default: 
-                        Console.WriteLine("Invalid Option! Try Again Please."); 
+                        Console.WriteLine("Invalid Option! Try Again Please.\n"); 
                         break;
                 }
 

@@ -8,7 +8,7 @@ namespace JanasInventoryManagementSystem
 {
     public class Product
     {
-        private int id = 0;
+        private static int id = 0;
         public int Id { get; private set; }
         public string Name { get; set; }
         public decimal Price { get; set; }

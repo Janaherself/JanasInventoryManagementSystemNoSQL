@@ -8,9 +8,9 @@ namespace JanasInventoryManagementSystem
 {
     public class Inventory
     {
-        private List<Product>? products = new List<Product>();
+        private static List<Product>? products = new List<Product>();
 
-        public void Add(Inventory inventory)
+        public void Add()
         {
             Console.Write("Enter product name:");
             string name = Console.ReadLine();
@@ -24,25 +24,35 @@ namespace JanasInventoryManagementSystem
             Product product = new Product(name, price, quantity);
             products.Add(product);
 
-            Console.WriteLine("Product Added Succefully!");
+            Console.WriteLine("Product Added Succefully!\n");
         }
 
-        public void View(Inventory inventory) 
+        public void View() 
         {
-        
+            if (products.Count == 0)
+            {
+                Console.WriteLine("No Products Found!");
+            }
+
+            foreach (Product product in products)
+            {
+                Console.WriteLine($"{product.Id}. {product.Name}\n" +
+                    $"Quantity: {product.Quantity}\n" +
+                    $"Price: {product.Price}");
+            }        
         }
 
-        public void Delete(Inventory inventory)
+        public void Delete()
         {
 
         }
 
-        public void Edit(Inventory inventory)
+        public void Edit()
         {
 
         }
 
-        public void Search(Inventory inventory)
+        public void Search()
         {
 
         }
