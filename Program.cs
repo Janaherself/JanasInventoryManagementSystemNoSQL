@@ -26,7 +26,7 @@ namespace JanasInventoryManagementSystem
                     "4. Delete a Product\n" +
                     "5. Search for a Product\n" +
                     "6. Exit The App\n");
-                Console.Write("Select an Option:");
+                Console.Write("Select an Option: ");
 
                 int option = Convert.ToInt32(Console.ReadLine());
 
