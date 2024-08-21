@@ -24,32 +24,36 @@ namespace JanasInventoryManagementSystem
             Product product = new Product(name, price, quantity);
             products.Add(product);
 
-            Console.WriteLine("Product Added Succefully!\n" +
-                "--------------------------------------");
+            Console.WriteLine("Product Added Succefully!\n");
+            Console.WriteLine("--------------------------------------\n");
         }
 
         public void View() 
         {
             if (products.Count == 0)
             {
-                Console.WriteLine("No Products Found!\n" +
-                    "--------------------------------------");
+                Console.WriteLine("No Products Found!\n");
+                Console.WriteLine("--------------------------------------\n");
             }
-
-            foreach (Product product in products)
+            else
             {
-                Console.WriteLine($"Products List:\n" +
-                    $"{product.Id}. {product.Name}\n" +
-                    $"Quantity: {product.Quantity}\n" +
-                    $"Price: {product.Price}\n");
-            }
+                Console.WriteLine($"Products List:");
 
-            Console.WriteLine("--------------------------------------");
+                foreach (Product product in products)
+                {
+                    Console.WriteLine($"{product.Id}. {product.Name}\n" +
+                        $"Quantity: {product.Quantity}\n" +
+                        $"Price: {product.Price}\n");
+                }
+
+                Console.WriteLine("--------------------------------------\n");
+
+            }
         }
 
         public void Edit()
         {
-            Console.WriteLine("Enter The Product Name to Edit:");
+            Console.Write("Enter The Product Name to Edit:");
             string name = Console.ReadLine();
 
             var product = GetProduct(name);
@@ -80,15 +84,15 @@ namespace JanasInventoryManagementSystem
                     product.Price = Convert.ToDecimal(newPrice);
                 }
 
-                Console.WriteLine("Product Updated Successfully!\n" +
-                    "--------------------------------------");
+                Console.WriteLine("Product Updated Successfully!\n");
+                Console.WriteLine("--------------------------------------\n");
             }
 
         }
 
         public void Delete()
         {
-            Console.WriteLine("Enter The Product Name to Delete:");
+            Console.Write("Enter The Product Name to Delete:");
             string name = Console.ReadLine();
 
             var product = GetProduct(name);
@@ -96,13 +100,13 @@ namespace JanasInventoryManagementSystem
             if (name != null)
             {
                 products.Remove(product);
-                Console.WriteLine("Product Was Deleted successfully!\n" +
-                    "--------------------------------------");
+                Console.WriteLine("Product Was Deleted successfully!\n");
+                Console.WriteLine("--------------------------------------\n");
             }
             else 
-            { 
-                Console.WriteLine("Product With This Name Wasn't Found!\n" +
-                    "--------------------------------------"); 
+            {
+                Console.WriteLine("Product With This Name Wasn't Found!\n");
+                Console.WriteLine("--------------------------------------\n"); 
             }
         }
 
