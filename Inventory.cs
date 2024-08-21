@@ -32,7 +32,8 @@ namespace JanasInventoryManagementSystem
         {
             if (products.Count == 0)
             {
-                Console.WriteLine("No Products Found!\n");
+                Console.WriteLine("No Products Found!\n" +
+                    "--------------------------------------");
             }
 
             foreach (Product product in products)
@@ -51,7 +52,7 @@ namespace JanasInventoryManagementSystem
             Console.WriteLine("Enter The Product Name to Edit:");
             string name = Console.ReadLine();
 
-            var product = products.FirstOrDefault(p => p.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+            var product = GetProduct(name);
 
             if (product != null) 
             {
@@ -90,17 +91,17 @@ namespace JanasInventoryManagementSystem
             Console.WriteLine("Enter The Product Name to Delete:");
             string name = Console.ReadLine();
 
-            var product = products.FirstOrDefault(p => p.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+            var product = GetProduct(name);
 
             if (name != null)
             {
                 products.Remove(product);
-                Console.WriteLine("Product Was Deleted successfully!" +
+                Console.WriteLine("Product Was Deleted successfully!\n" +
                     "--------------------------------------");
             }
             else 
             { 
-                Console.WriteLine("Product With This Name Wasn't Found!" +
+                Console.WriteLine("Product With This Name Wasn't Found!\n" +
                     "--------------------------------------"); 
             }
         }
@@ -108,6 +109,11 @@ namespace JanasInventoryManagementSystem
         public void Search()
         {
 
+        }
+
+        private Product GetProduct(string name)
+        {
+            return products.FirstOrDefault(p => p.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
         }
     }
 }
