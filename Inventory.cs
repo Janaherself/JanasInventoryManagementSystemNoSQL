@@ -31,14 +31,15 @@ namespace JanasInventoryManagementSystem
         {
             if (products.Count == 0)
             {
-                Console.WriteLine("No Products Found!");
+                Console.WriteLine("No Products Found!\n");
             }
 
             foreach (Product product in products)
             {
-                Console.WriteLine($"{product.Id}. {product.Name}\n" +
+                Console.WriteLine($"Products List:\n" +
+                    $"{product.Id}. {product.Name}\n" +
                     $"Quantity: {product.Quantity}\n" +
-                    $"Price: {product.Price}");
+                    $"Price: {product.Price}\n");
             }        
         }
 
