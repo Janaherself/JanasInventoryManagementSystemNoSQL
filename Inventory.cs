@@ -24,7 +24,8 @@ namespace JanasInventoryManagementSystem
             Product product = new Product(name, price, quantity);
             products.Add(product);
 
-            Console.WriteLine("Product Added Succefully!\n");
+            Console.WriteLine("Product Added Succefully!\n" +
+                "--------------------------------------");
         }
 
         public void View() 
@@ -40,17 +41,68 @@ namespace JanasInventoryManagementSystem
                     $"{product.Id}. {product.Name}\n" +
                     $"Quantity: {product.Quantity}\n" +
                     $"Price: {product.Price}\n");
-            }        
-        }
+            }
 
-        public void Delete()
-        {
-
+            Console.WriteLine("--------------------------------------");
         }
 
         public void Edit()
         {
+            Console.WriteLine("Enter The Product Name to Edit:");
+            string name = Console.ReadLine();
 
+            var product = products.FirstOrDefault(p => p.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+
+            if (product != null) 
+            {
+                Console.WriteLine("Enter The New Name:\n(press enter to keep it unchanged)");
+                var newName = Console.ReadLine();
+
+                Console.WriteLine("Enter The New Quantity:\n(press enter to keep it unchanged)");
+                var newQuantity = Console.ReadLine();
+
+                Console.WriteLine("Enter The New Price:\n(press enter to keep it unchanged)");
+                var newPrice = Console.ReadLine();
+
+                if (!string.IsNullOrEmpty(newName))
+                {
+                    product.Name = newName;
+                }
+
+                if (!string.IsNullOrEmpty(newQuantity))
+                {
+                    product.Quantity = Convert.ToInt32(newQuantity);
+                }
+
+                if (!string.IsNullOrEmpty(newPrice))
+                {
+                    product.Price = Convert.ToDecimal(newPrice);
+                }
+
+                Console.WriteLine("Product Updated Successfully!\n" +
+                    "--------------------------------------");
+            }
+
+        }
+
+        public void Delete()
+        {
+            Console.WriteLine("Enter The Product Name to Delete:");
+            string name = Console.ReadLine();
+
+            var product = products.FirstOrDefault(p => p.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+
+            if (name != null)
+            {
+                products.Remove(product);
+                Console.WriteLine("Product Was Deleted successfully!" +
+                    "--------------------------------------");
+            }
+            else 
+            { 
+                Console.WriteLine("Product With This Name Wasn't Found!" +
+                    "--------------------------------------"); 
+            }
         }
 
         public void Search()
