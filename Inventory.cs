@@ -141,7 +141,26 @@ namespace JanasInventoryManagementSystem
 
         public void Search()
         {
+            Console.Write("Enter Product Name: ");
+            string name = Console.ReadLine();
 
+            Console.WriteLine();    
+
+            var product = GetProduct(name);
+
+            if (product != null)
+            {
+                Console.WriteLine("Product Found!");
+                Console.WriteLine($"{product.Id}. {product.Name}\n" +
+                    $"Quantity: {product.Quantity}\n" +
+                    $"Price: {product.Price}\n");
+                Console.WriteLine("--------------------------------------\n");
+            }
+            else
+            {
+                Console.WriteLine("Product Wasn't Found!\n");
+                Console.WriteLine("--------------------------------------\n");
+            }
         }
 
         private Product GetProduct(string name)
