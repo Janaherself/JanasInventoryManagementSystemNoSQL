@@ -28,21 +28,18 @@ namespace JanasInventoryManagementSystem
                     "6. Exit The App\n");
                 Console.Write("Select an Option: ");
 
-                int option = Convert.ToInt32(Console.ReadLine());
+                string option = Console.ReadLine();
 
                 Console.WriteLine();
 
                 switch (option)
                 {
-                    case 1: inventory.Add(); break;
-                    case 2: inventory.View(); break;
-                    case 3: inventory.Edit(); break;
-                    case 4: inventory.Delete(); break;
-                    case 5: inventory.Search(); break;
-                    case 6: 
-                        exit = false; 
-                        Console.WriteLine("Exiting..\n"); 
-                        break;
+                    case "1": inventory.Add(); break;
+                    case "2": inventory.View(); break;
+                    case "3": inventory.Edit(); break;
+                    case "4": inventory.Delete(); break;
+                    case "5": inventory.Search(); break;
+                    case "6": inventory.Exit(); exit = false; break;
                     default: 
                         Console.WriteLine("Invalid Option! Try Again Please.\n"); 
                         break;

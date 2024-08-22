@@ -167,5 +167,10 @@ namespace JanasInventoryManagementSystem
         {
             return products.FirstOrDefault(p => p.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
         }
+
+        public void Exit()
+        {
+            Console.WriteLine("Exiting..\n");
+        }
     }
 }
