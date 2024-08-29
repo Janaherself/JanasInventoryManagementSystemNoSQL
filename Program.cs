@@ -1,19 +1,14 @@
-﻿using Microsoft.VisualBasic.FileIO;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.Design;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace JanasInventoryManagementSystem
+﻿namespace JanasInventoryManagementSystem
 {
     public class Program
     {
         static void Main(string[] args)
         {
-            Inventory inventory = new Inventory();
+            Inventory inventory = new();
+            DataManager dataManager = new();
+            ProgramHelper helper = new();
+
+            Product product;
             bool exit = true;
 
             while (exit) 
@@ -28,23 +23,39 @@ namespace JanasInventoryManagementSystem
                     "6. Exit The App\n");
                 Console.Write("Select an Option: ");
 
-                string option = Console.ReadLine();
+                string? option = Console.ReadLine();
 
                 Console.WriteLine();
 
                 switch (option)
                 {
-                    case "1": inventory.Add(); break;
-                    case "2": inventory.View(); break;
-                    case "3": inventory.Edit(); break;
-                    case "4": inventory.Delete(); break;
-                    case "5": inventory.Search(); break;
-                    case "6": inventory.Exit(); exit = false; break;
+                    case "1":
+                        product = dataManager.ReadFromConsole();
+                        inventory.Add(product);
+                        break;
+                    case "2":
+                        inventory.View();
+                        break;
+                    case "3":
+                        string nameToEdit = dataManager.GetName();
+                        inventory.Edit(nameToEdit);
+                        break;
+                    case "4":
+                        string nameToDelete = dataManager.GetName();
+                        inventory.Delete(nameToDelete);
+                        break;
+                    case "5":
+                        string nameToSearchFor = dataManager.GetName();
+                        inventory.Search(nameToSearchFor);
+                        break;
+                    case "6":
+                        inventory.ExitFromConsole();
+                        exit = false;
+                        break;
                     default: 
-                        Console.WriteLine("Invalid Option! Try Again Please.\n"); 
+                        Console.WriteLine("Invalid Option! Try Again Please.\n");
                         break;
                 }
-
             }
         }
     }

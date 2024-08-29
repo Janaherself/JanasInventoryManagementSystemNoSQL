@@ -1,176 +1,136 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.InteropServices;
 
 namespace JanasInventoryManagementSystem
 {
     public class Inventory
     {
-        private static List<Product>? products = new List<Product>();
+        private readonly Dictionary<string, Product> _products = new();
+        DataManager dataManager = new();
+        ProgramHelper programHelper = new();
 
-        public void Add()
+        public void Add(Product pr)
         {
-            Console.Write("Enter product name: ");
-            string name = Console.ReadLine();
-
-            Console.Write("Enter product price: ");
-            decimal price = Convert.ToDecimal(Console.ReadLine());
-
-            Console.Write("Enter product quantity: ");
-            int quantity = Convert.ToInt32(Console.ReadLine());
-
-            Console.WriteLine();
-
-            Product product = new Product(name, price, quantity);
-            products.Add(product);
-
-            Console.WriteLine("Product Added Successfully!\n");
-            Console.WriteLine("--------------------------------------\n");
+            try
+            {
+                _products.Add(pr.Name, pr);
+                programHelper.PrintSuccessMessage("Added");
+            }
+            catch
+            {
+                Console.WriteLine("You can't have two products with the same name!\n\n");
+            }
         }
 
         public void View() 
         {
-            if (products.Count == 0)
+            if (_products.Count == 0)
             {
-                Console.WriteLine("No Products Found!\n");
-                Console.WriteLine("--------------------------------------\n");
+                programHelper.PrintFailureMessage();
             }
             else
             {
-                Console.WriteLine($"Products List:");
-
-                foreach (Product product in products)
+                Console.WriteLine("Products List:\n");
+                foreach (KeyValuePair<string, Product> kvp in _products)
                 {
-                    Console.WriteLine($"{product.Id}. {product.Name}\n" +
-                        $"Quantity: {product.Quantity}\n" +
-                        $"Price: {product.Price}\n");
+                    PrintItem(kvp.Value);
                 }
-
-                Console.WriteLine("--------------------------------------\n");
-
             }
         }
 
-        public void Edit()
+        public void Edit(string name)
         {
-
-            if (products.Count == 0)
+            if (_products.Count == 0)
             {
-                Console.WriteLine("No Products to Edit!\n");
-                Console.WriteLine("--------------------------------------\n");
+                programHelper.PrintFailureMessage();
             }
             else
             {
-                Console.Write("Enter The Product Name to Be Edited: ");
-                string name = Console.ReadLine();
-
                 var product = GetProduct(name);
 
                 Console.WriteLine();
 
-                if (product != null && product.GetType() == typeof(Product))
+                if (product != null)
                 {
-                    Console.Write("Enter The New Name (or press enter to keep it unchanged): ");
-                    var newName = Console.ReadLine();
-
-                    Console.Write("Enter The New Quantity (or press enter to keep it unchanged): ");
-                    var newQuantity = Console.ReadLine();
-
-                    Console.Write("Enter The New Price (or press enter to keep it unchanged): ");
-                    var newPrice = Console.ReadLine();
+                    var newProduct = dataManager.ReadFromConsole();
 
                     Console.WriteLine();
 
-                    if (!string.IsNullOrEmpty(newName))
+                    if (!_products.ContainsKey(newProduct[0]) && 
+                        !string.IsNullOrEmpty(newProduct[0]) &&
+                        !string.IsNullOrEmpty(newProduct[1]) && 
+                        !string.IsNullOrEmpty(newProduct[2])
+                        )
                     {
-                        product.Name = newName;
+                        _products[name].Name = newProduct[0];
+                        _products[name].Quantity = Convert.ToInt32(newProduct[1]);
+                        _products[name].Price = Convert.ToDecimal(newProduct[2]);
                     }
-
-                    if (!string.IsNullOrEmpty(newQuantity))
-                    {
-                        product.Quantity = Convert.ToInt32(newQuantity);
-                    }
-
-                    if (!string.IsNullOrEmpty(newPrice))
-                    {
-                        product.Price = Convert.ToDecimal(newPrice);
-                    }
-
-                    Console.WriteLine("Product Updated Successfully!\n");
-                    Console.WriteLine("--------------------------------------\n");
+                    programHelper.PrintSuccessMessage("Edited");
                 }
                 else
                 {
-                    Console.WriteLine("Product With This Name Wasn't Found!\n");
-                    Console.WriteLine("--------------------------------------\n");
+                    programHelper.PrintFailureMessage();                
                 }
             }
         }
 
-        public void Delete()
+        public void Delete(string name)
         {
-            if (products.Count == 0)
+            if (_products.Count == 0)
             {
-                Console.WriteLine("No Products to Delete!\n");
-                Console.WriteLine("--------------------------------------\n");
+                programHelper.PrintFailureMessage();
             }
             else
             {
-                Console.Write("Enter The Product Name to Be Deleted: ");
-                string name = Console.ReadLine();
-
                 var product = GetProduct(name);
 
                 Console.WriteLine();
 
-                if (product != null && product.GetType() == typeof(Product))
+                if (product != null)
                 {
-                    products.Remove(product);
-                    Console.WriteLine("Product Was Deleted successfully!\n");
-                    Console.WriteLine("--------------------------------------\n");
+                    _products.Remove(name);
+                    programHelper.PrintSuccessMessage("Deleted");
                 }
                 else
                 {
-                    Console.WriteLine("Product With This Name Wasn't Found!\n");
-                    Console.WriteLine("--------------------------------------\n");
+                    programHelper.PrintFailureMessage();
                 }
             }
         }
 
-        public void Search()
+        public void Search(string name)
         {
-            Console.Write("Enter Product Name: ");
-            string name = Console.ReadLine();
-
-            Console.WriteLine();    
-
             var product = GetProduct(name);
 
             if (product != null)
             {
-                Console.WriteLine("Product Found!");
-                Console.WriteLine($"{product.Id}. {product.Name}\n" +
-                    $"Quantity: {product.Quantity}\n" +
-                    $"Price: {product.Price}\n");
-                Console.WriteLine("--------------------------------------\n");
+                PrintItem(_products[product.Name]);
             }
             else
             {
-                Console.WriteLine("Product Wasn't Found!\n");
-                Console.WriteLine("--------------------------------------\n");
+                programHelper.PrintFailureMessage();
             }
         }
 
         private Product GetProduct(string name)
         {
-            return products.FirstOrDefault(p => p.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+            if (_products.ContainsKey(name))
+                return _products[name];
+            else 
+                return null;
         }
 
-        public void Exit()
+        public void ExitFromConsole()
         {
             Console.WriteLine("Exiting..\n");
+        }
+
+        private void PrintItem(Product val)
+        {
+            Console.WriteLine($"{val.Id}. {val.Name}\n" +
+                $"Quantity: {val.Quantity}\n" +
+                $"Price: {val.Price}\n");
+        
         }
     }
 }
