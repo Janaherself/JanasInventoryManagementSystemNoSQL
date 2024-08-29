@@ -1,24 +1,15 @@
-﻿using System.Runtime.InteropServices;
-
-namespace JanasInventoryManagementSystem
+﻿namespace JanasInventoryManagementSystem
 {
     public class Inventory
     {
-        private readonly Dictionary<string, Product> _products = new();
+        private readonly Dictionary<int, Product> _products = new();
         DataManager dataManager = new();
         ProgramHelper programHelper = new();
 
-        public void Add(Product pr)
+        public void Add(Product product)
         {
-            try
-            {
-                _products.Add(pr.Name, pr);
-                programHelper.PrintSuccessMessage("Added");
-            }
-            catch
-            {
-                Console.WriteLine("You can't have two products with the same name!\n\n");
-            }
+            _products.Add(product.Id, product);
+            programHelper.PrintSuccessMessage(action.Added);
         }
 
         public void View() 
@@ -30,14 +21,14 @@ namespace JanasInventoryManagementSystem
             else
             {
                 Console.WriteLine("Products List:\n");
-                foreach (KeyValuePair<string, Product> kvp in _products)
+                foreach (KeyValuePair<int, Product> kvp in _products)
                 {
                     PrintItem(kvp.Value);
                 }
             }
         }
 
-        public void Edit(string name)
+        public void Edit(int id)
         {
             if (_products.Count == 0)
             {
@@ -45,27 +36,21 @@ namespace JanasInventoryManagementSystem
             }
             else
             {
-                var product = GetProduct(name);
+                var product = GetProduct(id);
 
                 Console.WriteLine();
 
                 if (product != null)
                 {
-                    var newProduct = dataManager.ReadFromConsole();
+                    var newProduct = dataManager.ReadFromConsole(product);
+
+                    _products[id].Name = newProduct.Name;
+                    _products[id].Quantity = Convert.ToInt32(newProduct.Quantity);
+                    _products[id].Price = Convert.ToDecimal(newProduct.Price);
 
                     Console.WriteLine();
 
-                    if (!_products.ContainsKey(newProduct[0]) && 
-                        !string.IsNullOrEmpty(newProduct[0]) &&
-                        !string.IsNullOrEmpty(newProduct[1]) && 
-                        !string.IsNullOrEmpty(newProduct[2])
-                        )
-                    {
-                        _products[name].Name = newProduct[0];
-                        _products[name].Quantity = Convert.ToInt32(newProduct[1]);
-                        _products[name].Price = Convert.ToDecimal(newProduct[2]);
-                    }
-                    programHelper.PrintSuccessMessage("Edited");
+                    programHelper.PrintSuccessMessage(action.Edited);
                 }
                 else
                 {
@@ -74,7 +59,7 @@ namespace JanasInventoryManagementSystem
             }
         }
 
-        public void Delete(string name)
+        public void Delete(int id)
         {
             if (_products.Count == 0)
             {
@@ -82,14 +67,14 @@ namespace JanasInventoryManagementSystem
             }
             else
             {
-                var product = GetProduct(name);
+                var product = GetProduct(id);
 
                 Console.WriteLine();
 
                 if (product != null)
                 {
-                    _products.Remove(name);
-                    programHelper.PrintSuccessMessage("Deleted");
+                    _products.Remove(id);
+                    programHelper.PrintSuccessMessage(action.Deleted);
                 }
                 else
                 {
@@ -98,13 +83,13 @@ namespace JanasInventoryManagementSystem
             }
         }
 
-        public void Search(string name)
+        public void Search(int id)
         {
-            var product = GetProduct(name);
+            var product = GetProduct(id);
 
             if (product != null)
             {
-                PrintItem(_products[product.Name]);
+                PrintItem(_products[id]);
             }
             else
             {
@@ -112,10 +97,10 @@ namespace JanasInventoryManagementSystem
             }
         }
 
-        private Product GetProduct(string name)
+        private Product? GetProduct(int id)
         {
-            if (_products.ContainsKey(name))
-                return _products[name];
+            if (_products.ContainsKey(id))
+                return _products[id];
             else 
                 return null;
         }

@@ -6,9 +6,7 @@
         {
             Inventory inventory = new();
             DataManager dataManager = new();
-            ProgramHelper helper = new();
 
-            Product product;
             bool exit = true;
 
             while (exit) 
@@ -30,23 +28,23 @@
                 switch (option)
                 {
                     case "1":
-                        product = dataManager.ReadFromConsole();
+                        var product = dataManager.ReadFromConsole();
                         inventory.Add(product);
                         break;
                     case "2":
                         inventory.View();
                         break;
                     case "3":
-                        string nameToEdit = dataManager.GetName();
-                        inventory.Edit(nameToEdit);
+                        int idToEdit = dataManager.GetName();
+                        inventory.Edit(idToEdit);
                         break;
                     case "4":
-                        string nameToDelete = dataManager.GetName();
-                        inventory.Delete(nameToDelete);
+                        int idToDelete = dataManager.GetName();
+                        inventory.Delete(idToDelete);
                         break;
                     case "5":
-                        string nameToSearchFor = dataManager.GetName();
-                        inventory.Search(nameToSearchFor);
+                        int idToSearchFor = dataManager.GetName();
+                        inventory.Search(idToSearchFor);
                         break;
                     case "6":
                         inventory.ExitFromConsole();

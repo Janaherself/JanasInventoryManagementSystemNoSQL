@@ -2,29 +2,53 @@
 {
     public class DataManager
     {
-        public List<string> ReadFromConsole()
+        public Product ReadFromConsole()
         {
             Console.Write("Enter product name: ");
             string? name = Console.ReadLine();
 
-            Console.Write("Enter product quantity: ");
-            string? quantity = Console.ReadLine();
-
             Console.Write("Enter product price: ");
-            string? price = Console.ReadLine();
+            decimal price = Convert.ToDecimal(Console.ReadLine());
+
+            Console.Write("Enter product quantity: ");
+            int quantity = Convert.ToInt32(Console.ReadLine());
 
             Console.WriteLine();
 
-            List<string> product = new List<string> { name, quantity, price };
-
-            return product;
+            return new Product(name, price, quantity);
         }
 
-        public string GetName()
+        public Product ReadFromConsole(Product newProduct)
         {
-            Console.WriteLine("Enter Product Name: ");
+            Console.Write("Enter product name: ");
             string? name = Console.ReadLine();
-            return name;
+
+            Console.Write("Enter product price: ");
+            decimal price = Convert.ToDecimal(Console.ReadLine());
+
+            Console.Write("Enter product quantity: ");
+            int quantity = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine();
+
+            if (!string.IsNullOrEmpty(newProduct.Name) &&
+                !string.IsNullOrEmpty(Convert.ToString(newProduct.Quantity)) &&
+                !string.IsNullOrEmpty(Convert.ToString(newProduct.Price))
+                )
+            {
+                newProduct.Name = name;
+                newProduct.Price = price;
+                newProduct.Quantity = quantity;
+            }
+
+            return newProduct;
+        }
+
+        public int GetName()
+        {
+            Console.Write("Enter Product ID: ");
+            int id = Convert.ToInt32(Console.ReadLine());
+            return id;
         }
     }
 }
