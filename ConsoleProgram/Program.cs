@@ -1,15 +1,17 @@
-﻿namespace JanasInventoryManagementSystem
+﻿using JanasInventoryManagementSystem.Database;
+
+namespace JanasInventoryManagementSystem.ConsoleProgram
 {
     public class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            Inventory inventory = new();
+            NoSQLInventory inventory = new();
             DataManager dataManager = new();
 
             bool exit = true;
 
-            while (exit) 
+            while (exit)
             {
                 Console.WriteLine("Welcome To Jana's Inventory Management system!\n" +
                     "You can choose one of the options below by typing its corresponding number.\n" +
@@ -28,29 +30,25 @@
                 switch (option)
                 {
                     case "1":
-                        var product = dataManager.ReadFromConsole();
-                        inventory.Add(product);
+                        await inventory.Add();
                         break;
                     case "2":
-                        inventory.View();
+                        await inventory.View();
                         break;
                     case "3":
-                        int idToEdit = dataManager.GetName();
-                        inventory.Edit(idToEdit);
+                        await inventory.Edit();
                         break;
                     case "4":
-                        int idToDelete = dataManager.GetName();
-                        inventory.Delete(idToDelete);
+                        await inventory.Delete();
                         break;
                     case "5":
-                        int idToSearchFor = dataManager.GetName();
-                        inventory.Search(idToSearchFor);
+                        await inventory.Search();
                         break;
                     case "6":
                         inventory.ExitFromConsole();
                         exit = false;
                         break;
-                    default: 
+                    default:
                         Console.WriteLine("Invalid Option! Try Again Please.\n");
                         break;
                 }

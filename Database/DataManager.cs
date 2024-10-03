@@ -1,8 +1,8 @@
-﻿namespace JanasInventoryManagementSystem
+﻿namespace JanasInventoryManagementSystem.Database
 {
     public class DataManager
     {
-        public Product ReadFromConsole()
+        public Product.Product ReadFromConsole()
         {
             Console.Write("Enter product name: ");
             string? name = Console.ReadLine();
@@ -15,10 +15,10 @@
 
             Console.WriteLine();
 
-            return new Product(name, price, quantity);
+            return new Product.Product(name, price, quantity);
         }
 
-        public Product ReadFromConsole(Product newProduct)
+        public Product.Product ReadFromConsole(Product.Product newProduct)
         {
             Console.Write("Enter product name: ");
             string? name = Console.ReadLine();
